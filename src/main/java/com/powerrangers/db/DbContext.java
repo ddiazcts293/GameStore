@@ -62,6 +62,12 @@ public class DbContext
         return filteredGameArray;
     }
 
+    // Registra a un cliente.
+    public boolean registerCustomer(Customer customer)
+    {
+        return true;
+    }
+
     // Localiza a un cliente con base a las credenciales dadas.
     public Customer findCustomer(String email, String password)
     {

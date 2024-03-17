@@ -34,3 +34,5 @@ Para aplicar los cambios realizados se deberán seguir los siguientes pasos:
 ![Img 1](/images/Captura%20de%20pantalla_20240317_011445.png "Pasos 1 - 4")
 
 ![Img 2](/images/Captura%20de%20pantalla_20240317_012013.png "Paso 5")
+
+# Estructura
