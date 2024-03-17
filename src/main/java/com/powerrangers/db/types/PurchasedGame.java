@@ -8,7 +8,7 @@ package com.powerrangers.db.types;
 
 import java.time.*;
 
-public class GamePurchased 
+public class PurchasedGame 
 {
     public int id;
 
@@ -16,7 +16,7 @@ public class GamePurchased
 
     public Game game;
 
-    public float pricePaid;
+    public float paidPrice;
 
     public LocalDate date;
 }

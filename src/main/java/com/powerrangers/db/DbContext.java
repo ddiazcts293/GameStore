@@ -30,30 +30,54 @@ public class DbContext
         populateLists();
     }
 
-    public ArrayList<GameCategory> getGameCategories()
+    // Devuelve un arreglo de todas las categorias de juegos.
+    public GameCategory[] getGameCategories()
     {
-        return categoryList;
+        GameCategory[] categoryArray = new GameCategory[categoryList.size()];
+        categoryList.toArray(categoryArray);
+        
+        return categoryArray;
     }
     
-    // Función que devuelve una lista de todos los juegos disponibles
-    public ArrayList<Game> getGames()
+    // Devuelve un arreglo de todos los juegos disponibles.
+    public Game[] getGames()
     {
-        return gameList;
+        Game[] gameArray = new Game[gameList.size()];
+        gameList.toArray(gameArray);
+
+        return gameArray;
     }
 
-    // Función que devuelve la lista de los juegos disponibles segun una 
-    // categoria dada
-    public ArrayList<Game> getGames(GameCategory category)
-    { 
-        return gameList;
+    // Devuelve un arreglo de los juegos disponibles de una categoria dada.
+    public Game[] getGames(GameCategory categoryToFilter)
+    {
+        ArrayList<Game> filteredGameList = new ArrayList<>();
+        Game[] filteredGameArray;
+
+        for (Game game : gameList) 
+        {
+            for (GameCategory category : game.categories) 
+            {
+                if (category.id == categoryToFilter.id)
+                {
+                    filteredGameList.add(game);
+                    break;
+                }
+            }
+        }
+
+        filteredGameArray = new Game[filteredGameList.size()];
+        filteredGameList.toArray(filteredGameArray);
+
+        return filteredGameArray;
     }
 
-    // Función que localiza a un cliente con base a sus credenciales
+    // Localiza a un cliente con base a las credenciales dadas.
     public Customer findCustomer(String email, String password)
     {
         Customer foundCustomer = null;
 
-        // Ciclo que recorre la lista de usuarios registrados
+        // Bucle que recorre la lista de usuarios registrados
         for (Customer customer : customerList) 
         {
             var testCredentials = customer.credentials;
@@ -72,16 +96,19 @@ public class DbContext
         return foundCustomer;
     }
 
+    // Actualiza la informacion de un cliente.
     public boolean updateCustomer(Customer customer)
     {
         return true;
     }
 
+    // Actualiza la informacion de inicio de sesion de un cliente.
     public boolean updateCustomerCredentials(CustomerCredentials credentials)
     {
         return true;
     }
 
+    // Elimina a un cliente de la base de datos.
     public boolean deleteCustomer(Customer customer)
     {
         return true;
@@ -89,12 +116,13 @@ public class DbContext
 
     //#region Private methods
 
-    // Función que rellena las listas con datos de muestra
+    // Rellena las listas internas con informacion de muestra.
     private void populateLists()
     {
+        // Define algunas categorías
         GameCategory roleCategory = new GameCategory(
             1,
-            "Juegos de rool",
+            "Juegos de rol",
             "");
         GameCategory shooterCategory = new GameCategory(
             2,
@@ -106,19 +134,21 @@ public class DbContext
             "");
         GameCategory actionCategory = new GameCategory(
             4,
-            "Accion",
+            "Acción",
             "");
         GameCategory adventureCategory = new GameCategory(
             5, 
             "Aventura",
             "");
 
+        // Agrega las categorías a la lista
         categoryList.add(roleCategory);
         categoryList.add(shooterCategory);
         categoryList.add(platformCategory);
         categoryList.add(actionCategory);
         categoryList.add(adventureCategory);
 
+        // Define y agrega algunos juegos
         gameList.add(new Game(
             1, 
             "Elden Ring", 
@@ -215,12 +245,12 @@ public class DbContext
 
         Customer admin = new Customer(
             1,
-            "@admin",
-            "ADMIN"
+            "@denny",
+            "Denny DZ"
         );
         admin.credentials = new CustomerCredentials(
             1,
-            "admin@gamestore.com",
+            "denny@gmail.com",
             "1234"
         );
 
