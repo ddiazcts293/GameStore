@@ -1,14 +1,22 @@
 package com.powerrangers;
 
-import com.powerrangers.db.DbContext;
+import com.powerrangers.db.*;
+import com.powerrangers.db.types.*;;
 
 public class Main 
 {
     public static void main(String[] args) 
     {
-        DbContext context = new DbContext();
-        
+        DbContext.populateLists();
 
-        System.out.println("Hello world!");
+        DbContext context = new DbContext();
+        var games = context.getGames();
+
+        System.out.println("Available games: ");
+        
+        for (Game game : games) 
+        {
+            System.out.println(game.name + " by " + game.developer);    
+        }
     }
 }

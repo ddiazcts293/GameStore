@@ -13,22 +13,12 @@ import com.powerrangers.db.types.*;
 public class DbContext 
 {
     // Define las listas de catalogo y de usuarios registrados
-    // Por ahora se limitará a almacenar los datos en la memoria
-    private ArrayList<GameCategory> categoryList;
-    private ArrayList<Game> gameList;
-    private ArrayList<Customer> customerList;
+    // Por ahora se limitará a almacenar los datos en la memoria estática
+    private static ArrayList<GameCategory> categoryList = new ArrayList<>();
+    private static ArrayList<Game> gameList = new ArrayList<>();
+    private static ArrayList<Customer> customerList = new ArrayList<>();
 
-    // Constructor predeterminado
-    public DbContext()
-    {
-        // Crea las instancias de las listas
-        categoryList = new ArrayList<>();
-        gameList = new ArrayList<>();
-        customerList = new ArrayList<>();
-
-        // Rellena las listas con datos de ejemplo
-        populateLists();
-    }
+    private static boolean areListsPopulated = false;
 
     // Devuelve un arreglo de todas las categorias de juegos.
     public GameCategory[] getGameCategories()
@@ -117,8 +107,13 @@ public class DbContext
     //#region Private methods
 
     // Rellena las listas internas con informacion de muestra.
-    private void populateLists()
+    public static void populateLists()
     {
+        if (areListsPopulated)
+        {
+            return;
+        }
+
         // Define algunas categorías
         GameCategory roleCategory = new GameCategory(
             1,
@@ -255,6 +250,8 @@ public class DbContext
         );
 
         customerList.add(admin);
+
+        areListsPopulated = true;
     }
 
     //#endregion
