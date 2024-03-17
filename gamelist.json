@@ -1,0 +1,92 @@
+[
+  {
+    "nombre": "Elden Ring",
+    "año": 2022,
+    "desarrollador": "FromSoftware",
+    "precio": "$59.99",
+    "categoría": "Rol, Aventura, Acción",
+    "rating": 4.8,
+    "descripción": "Un mundo abierto épico con una jugabilidad desafiante y una narrativa envolvente creada por Hidetaka Miyazaki y George R.R. Martin."
+  },
+  {
+    "nombre": "Half-Life: Alyx",
+    "año": 2020,
+    "desarrollador": "Valve",
+    "precio": "$59.99",
+    "categoría": "Shooter, Realidad Virtual",
+    "rating": 4.7,
+    "descripción": "Una experiencia inmersiva en realidad virtual que continúa la saga Half-Life, centrada en la historia de Alyx Vance."
+  },
+  {
+    "nombre": "Baldur's Gate 3",
+    "año": 2021,
+    "desarrollador": "Larian Studios",
+    "precio": "$59.99",
+    "categoría": "Rol",
+    "rating": 4.6,
+    "descripción": "La tercera parte de la saga de rol clásico, con una gran fidelidad a los manuales de Dragones y Mazmorras."
+  },
+  {
+    "nombre": "Persona 5 Royal",
+    "año": 2020,
+    "desarrollador": "ATLUS",
+    "precio": "$59.99",
+    "categoría": "Rol, Japonés",
+    "rating": 4.9,
+    "descripción": "Una versión extendida y mejorada del exitoso juego de rol japonés, con nuevas zonas, personajes y características jugables."
+  },
+  {
+    "nombre": "Portal 2",
+    "año": 2011,
+    "desarrollador": "Valve",
+    "precio": "$19.99",
+    "categoría": "Puzle, Plataformas",
+    "rating": 4.8,
+    "descripción": "Un juego de culto que combina puzles y plataformas en primera persona con un modo cooperativo adictivo."
+  },
+  {
+    "nombre": "Half-Life 2",
+    "año": 2004,
+    "desarrollador": "Valve",
+    "precio": "$9.99",
+    "categoría": "Shooter, Ciencia Ficción",
+    "rating": 4.7,
+    "descripción": "La secuela del revolucionario Half-Life, que destaca por su diseño y narrativa en un mundo postapocalíptico."
+  },
+  {
+    "nombre": "The Witcher 3: Wild Hunt",
+    "año": 2015,
+    "desarrollador": "CD Projekt Red",
+    "precio": "$39.99",
+    "categoría": "Rol, Mundo Abierto",
+    "rating": 4.9,
+    "descripción": "Un juego de rol en un mundo abierto con una historia profunda y gráficos impresionantes."
+  },
+  {
+    "nombre": "Divinity: Original Sin 2",
+    "año": 2017,
+    "desarrollador": "Larian Studios",
+    "precio": "$44.99",
+    "categoría": "Rol, Táctico",
+    "rating": 4.8,
+    "descripción": "Un RPG táctico con una gran libertad de elección y consecuencias significativas en un mundo rico y detallado."
+  },
+  {
+    "nombre": "Red Dead Redemption 2",
+    "año": 2019,
+    "desarrollador": "Rockstar Games",
+    "precio": "$59.99",
+    "categoría": "Acción, Aventura, Mundo Abierto",
+    "rating": 4.8,
+    "descripción": "Una épica historia del oeste americano con un mundo abierto detallado y una jugabilidad envolvente."
+  },
+  {
+    "nombre": "God of War",
+    "año": 2022,
+    "desarrollador": "Santa Monica Studio",
+    "precio": "$49.99",
+    "categoría": "Acción, Aventura",
+    "rating": 4.9,
+    "descripción": "La aclamada saga regresa con una narrativa madura y una mecánica de combate refinada en el mundo de la mitología nórdica."
+  }
+]
