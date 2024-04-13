@@ -14,11 +14,43 @@ public class DbContext
 {
     // Define las listas de catalogo y de usuarios registrados
     // Por ahora se limitará a almacenar los datos en la memoria estática
-    private static ArrayList<GameCategory> categoryList = new ArrayList<>();
-    private static ArrayList<Game> gameList = new ArrayList<>();
-    private static ArrayList<Customer> customerList = new ArrayList<>();
+    private ArrayList<GameCategory> categoryList = new ArrayList<>();
+    private ArrayList<Game> gameList = new ArrayList<>();
+    private ArrayList<Customer> customerList = new ArrayList<>();
 
-    private static boolean areListsPopulated = false;
+    private boolean listsPopulated = false;
+
+    //#region Public methods
+
+    // Inicio de sesión
+    public Customer login(String email, String password)
+    {
+        Customer foundCustomer = null;
+
+        // Bucle que recorre la lista de usuarios registrados
+        for (Customer customer : customerList) 
+        {
+            var testCredentials = customer.credentials;
+
+            // Verifica si tanto el email como la contrasena coinciden con las
+            // del cliente actual
+            if (testCredentials.email.compareTo(email) == 0 &&
+                testCredentials.password.compareTo(password) == 0)
+            {
+                // Obtiene la informacion del cliente actual
+                foundCustomer = customer;
+                break; // Sale del ciclo
+            }
+        }
+
+        return foundCustomer;
+    }
+
+    // Registro de cliente
+    public boolean signup(Customer customer)
+    {
+        return true;
+    }
 
     // Devuelve un arreglo de todas las categorias de juegos.
     public GameCategory[] getGameCategories()
@@ -62,36 +94,6 @@ public class DbContext
         return filteredGameArray;
     }
 
-    // Registra a un cliente.
-    public boolean registerCustomer(Customer customer)
-    {
-        return true;
-    }
-
-    // Localiza a un cliente con base a las credenciales dadas.
-    public Customer findCustomer(String email, String password)
-    {
-        Customer foundCustomer = null;
-
-        // Bucle que recorre la lista de usuarios registrados
-        for (Customer customer : customerList) 
-        {
-            var testCredentials = customer.credentials;
-
-            // Verifica si tanto el email como la contrasena coinciden con las
-            // del cliente actual
-            if (testCredentials.email.compareTo(email) == 0 &&
-                testCredentials.password.compareTo(password) == 0)
-            {
-                // Obtiene la informacion del cliente actual
-                foundCustomer = customer;
-                break; // Sale del ciclo
-            }
-        }
-
-        return foundCustomer;
-    }
-
     // Actualiza la informacion de un cliente.
     public boolean updateCustomer(Customer customer)
     {
@@ -110,12 +112,14 @@ public class DbContext
         return true;
     }
 
+    //#endregion
+
     //#region Private methods
 
     // Rellena las listas internas con informacion de muestra.
-    public static void populateLists()
+    public void populateLists()
     {
-        if (areListsPopulated)
+        if (listsPopulated)
         {
             return;
         }
@@ -257,7 +261,7 @@ public class DbContext
 
         customerList.add(admin);
 
-        areListsPopulated = true;
+        listsPopulated = true;
     }
 
     //#endregion
