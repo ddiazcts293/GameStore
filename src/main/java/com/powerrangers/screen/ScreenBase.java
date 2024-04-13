@@ -4,5 +4,5 @@ import com.powerrangers.AppContext;
 
 public interface ScreenBase 
 {
-    void run(AppContext appContext);
+    void show(AppContext appContext);
 }

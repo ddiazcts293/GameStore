@@ -6,7 +6,7 @@ public enum ScreenOption
     MainScreen,
     Login,
     SignUp,
-    Account,
+    AccountSettings,
     GameLibrary,
     GameCatalog,
     AddFunds,

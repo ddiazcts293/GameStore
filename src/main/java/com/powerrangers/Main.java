@@ -9,7 +9,6 @@ package com.powerrangers;
 
 import java.util.Scanner;
 import com.powerrangers.db.*;
-import com.powerrangers.screen.*;
 
 public class Main 
 {
@@ -25,8 +24,8 @@ public class Main
         // Por ahora solo se limitara a rellenar listas con datos de muestra.
         dbContext.populateLists();
 
-        // Se dirige a la pantalla principal.
-        appContext.goToScreen(ScreenOption.MainScreen);
+        // Inicializa AppContext en la pantalla principal
+        appContext.initialize();
 
         // Finaliza el escaner de entrada de datos para que libere los recursos
         // que este utiliza.

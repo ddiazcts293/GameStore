@@ -9,6 +9,7 @@ import com.powerrangers.util.*;
 
 public class AppContext
 {
+    private boolean _inialized;
     private ScreenOption _currentScreen;
     private ScreenOption _previousScreen;
 
@@ -18,12 +19,17 @@ public class AppContext
     
     public AppContext(Scanner scanner)
     {
+        _inialized = false;
         _scanner = scanner;
         _dbContext = new DbContext();
         _screenInstances = new HashMap<>();
         
         _screenInstances.put(ScreenOption.MainScreen, new MainScreen());
-        _screenInstances.put(ScreenOption.GameLibrary, new GameLibrary());
+        _screenInstances.put(ScreenOption.Login, new LoginScreen());
+        _screenInstances.put(ScreenOption.SignUp, new SignUpScreen());
+        _screenInstances.put(ScreenOption.AccountSettings, new AccountSettingsScreen());
+        _screenInstances.put(ScreenOption.GameLibrary, new GameLibraryScreen());
+        _screenInstances.put(ScreenOption.GameCatalog, new GameCatalogScreen());
     }
 
     // Metodos publicos
@@ -71,6 +77,26 @@ public class AppContext
         return new Menu(_scanner);
     }
 
+    public void initialize()
+    {
+        if (!_inialized)
+        {
+            _inialized = true;
+            
+            do
+            {
+                goToScreen(ScreenOption.MainScreen);
+            }
+            while (true);
+        }
+    }
+
+    public void exit()
+    {
+        // Guardar base de datos
+        System.exit(0);
+    }
+
     // Metodos privados
 
     private void showCurrentScreen()
@@ -79,8 +105,8 @@ public class AppContext
         
         if (instance != null)
         {
-            Console.clearDisplay(2);
-            instance.run(this);
+            //Console.clearDisplay(2);
+            instance.show(this);
         }
     }
 }
