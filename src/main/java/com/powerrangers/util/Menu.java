@@ -1,3 +1,11 @@
+/*
+ * Archivo: Menu.java
+ * Autor: Díaz Cortés Daniel Salomón
+ * Grupo: 1A-DSM
+ * Descripción: Proporciona las funciones para mostrar un menú de diferentes
+ * opciones en el que el usuario podrá elegir una de ellas.
+ */
+
 package com.powerrangers.util;
 
 import java.util.Scanner;

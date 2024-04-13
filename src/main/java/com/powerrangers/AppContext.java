@@ -1,3 +1,11 @@
+/*
+ * Archivo: AppContext.java
+ * Autor: Díaz Cortés Daniel Salomón
+ * Grupo: 1A-DSM
+ * Descripción: Proporciona las funciones para mostrar menús, cambiar de 
+ * pantalla y otros componentes utilizados en todo el programa.
+ */
+
 package com.powerrangers;
 
 import java.util.HashMap;
@@ -93,7 +101,7 @@ public class AppContext
 
     public void exit()
     {
-        // Guardar base de datos
+        // Implementar guardado base de datos
         System.exit(0);
     }
 

@@ -1,3 +1,11 @@
+/*
+ * Archivo: Console.java
+ * Autor: Díaz Cortés Daniel Salomón
+ * Grupo: 1A-DSM
+ * Descripción: Proporciona las funciones para controlar lo que se muestra en 
+ * la consola.
+ */
+
 package com.powerrangers.util;
 
 public class Console 
