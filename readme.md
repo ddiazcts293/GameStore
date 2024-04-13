@@ -9,7 +9,7 @@ A continuación se presentan las instrucciones para instalar y configurar el ent
 ### Requisitos
 
 - Instalar [Visual Studio Code](https://code.visualstudio.com/).
-- Instalar **OpenJDK 21** desde [este link](https://learn.microsoft.com/es-mx/java/openjdk/download#openjdk-21) o de [este otro](https://adoptium.net/es/).
+- Instalar **OpenJDK 21** desde [este link](https://adoptium.net/es/) o de [este otro](https://learn.microsoft.com/es-mx/java/openjdk/download#openjdk-21).
 - Instalar [Git](https://git-scm.com/download/win).
 - Crear una cuenta en [GitHub](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home).
 
@@ -17,7 +17,9 @@ A continuación se presentan las instrucciones para instalar y configurar el ent
 
 1. Buscar e instalar la extensión **Extension Pack for Java** en Visual Studio.
 2. Clonar este repositorio localmente.
-3. Configurar correo electrónico y nombre de usuario en Git para poder realizar cambios en el código.
+3. Configurar correo electrónico y nombre de usuario en Git usando una ventana de consola (CMD) para poder realizar cambios en el código.
+    - Correo: ```git config --global user.email "you@example.com"```
+    - Usuario: ```git config --global user.name "Your name"```
 
 ## Manejo de código
 
