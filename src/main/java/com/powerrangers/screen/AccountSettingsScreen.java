@@ -12,7 +12,8 @@ public class AccountSettingsScreen implements ScreenBase
 
         Menu menu = appContext.createMenu()
             .AddItem("1", "Regresar a pantalla anterior")
-            .AddItem("2", "Ir a menú principal");
+            .AddItem("2", "Ir a menú principal")
+            .AddItem("3", "Salir");
 
         switch (menu.show()) 
         {
