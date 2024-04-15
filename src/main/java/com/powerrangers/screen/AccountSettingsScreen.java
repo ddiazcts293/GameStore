@@ -11,8 +11,6 @@ public class AccountSettingsScreen implements ScreenBase
         System.out.println("Configuración de cuenta");
 
         Menu menu = appContext.createMenu()
-            .AddItem("1", "Regresar a pantalla anterior")
-            .AddItem("2", "Ir a menú principal") // Hola
             .AddItem("3", "Salir");
 
         switch (menu.show()) 
