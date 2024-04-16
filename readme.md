@@ -38,3 +38,52 @@ Para aplicar los cambios realizados se deberán seguir los siguientes pasos:
 ![Img 2](/images/Captura%20de%20pantalla_20240317_012013.png "Paso 5")
 
 # Estructura
+
+El programa se encuentra estructurado por pantallas (Screen). Cada Screen 
+representa un apartado, pudiendo ser la pantalla principal, el catálogo de 
+juegos, ajustes de cuenta, etc.
+
+Todos los apartados se encuentran dentro de la carpeta ```screen```.
+
+Lista de apartados:
+
+- ```MainScreen``` - Menú o pantalla principal que se muestra al iniciar el 
+programa.
+- ```LoginScreen``` - Apartado de inicio de sesión.
+- ```SignUpScreen``` - Apartado de registro de nuevos clientes.
+- ```AccountSettingsScreen``` - Apartado de ajustes de cuenta.
+- ```GameLibrary``` - Apartado biblioteca de juegos donde el usuario podrá explorar su lista de juegos comprados, wishlist y el carrito de compras.
+- ```GameCatalogScreen``` - Catálogo de juegos donde el usuario podrá explorar y ver los detalles de cada uno de ellos.
+- ```PurchaseScreen``` - Apartado de compras donde el usuario podrá efectuar la adquisición de los juegos que están en su carrito de compras.
+- ```AddFundsScreen``` - Pantalla para agregar fondos a la cuenta del usuario.
+
+Cada apartado se encuentra definido dentro de una clase separada. Todas ellas contienen una función llamada ```show```, en la cual se lleva a cabo toda la lógica del apartado. 
+
+Asimismo, la función ```show``` recibe un argumento llamado ``appContext``, el cual es un objeto que alberga todos los componentes que se comparten en todo el programa, tales como el objeto ```Scanner```, el objeto de la base de datos, etc.
+
+## Objeto ``appContext``
+
+Funciones:
+- ```initialize()``` - Inicializa el objeto. Solo puede ser llamada una vez.
+- ```exit()``` - Finaliza el programa.
+- ```goToScreen([Screen])``` - Navega hacia la pantalla especificada.
+- ```goToPreviousScreen()```- Navega hacia la pantalla anterior.
+- ```getScanner()``` - Obtiene la instancia de ```Scanner``` para todo el programa.
+- ```getDbContext()```- Obtiene la instancia de la conexión de la base de datos.
+- ```getCurrentCustomer()``` - Obtiene el objeto ```Customer```asociado al cliente que ha iniciado sesión. Devuelve ```null``` si no se ha iniciado sesión.
+- ```isLoggedIn()``` - Devuelve un indicador booleano que específica si se ha iniciado sesión.
+- ```login()``` - Inicia sesión
+- ```signup()``` - Registra a un nuevo cliente.
+- ```deleteCustomerAccount()``` - Borra la cuenta del cliente actual.
+- ```createMenu()``` - Crea un objeto para mostrar un menú.
+
+## Objeto ``dbContext``
+
+Funciones:
+- ```getCustomers()``` - Obtiene un arreglo con la lista de todos los clientes registrados.
+- ```getGameCategories()``` - Obtiene un arreglo que contiene todas las categorías de juegos disponibles.
+- ```getGames()``` - Obtiene un arreglo que contiene todos los juegos registrados en la base de datos.
+- ```getGames([Category])``` - Obtiene un arreglo que contiene todos los juegos que corresponen a una categoría.
+- ```createCustomer()``` - Registra a un cliente nuevo.
+- ```updateCustomer()``` - Actualiza la información de un cliente.
+- ```deleteCustomer()``` - Elimina a un cliente registrado.
