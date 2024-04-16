@@ -11,13 +11,19 @@ public class AccountSettingsScreen implements ScreenBase {
     @Override
     public void show(AppContext appContext)
     {
+
+        //Se muestra el menú principal para la configuración de cuenta.
+        //La función DbContext corresponde a la base de datos creada en el programa.
+        //appContext corresponde al objeto que contiene todos los componentes utilizados en el programa. 
         System.out.println("Configuración de cuenta");
         DbContext dbContext = appContext.getDbContext();
         Scanner scanner = appContext.getScanner();
 
+        //Customer es el objeto con el cual se trabajarán los datos del usuario.
         Customer customer = appContext.getCurrentCustomer();
         String option;
 
+        //Se agrega un ciclo 'do' para que después de modificar un dato se dé la opción de continuar modificando si así lo desea.
         do
         {
             System.out.print("Seleccione la opción a modificar en su cuenta: ");
@@ -32,6 +38,9 @@ public class AccountSettingsScreen implements ScreenBase {
             
             option = menu.show();
 
+
+            //El switch case lleva al usuario a la opción que seleccionó.
+            //Aquí vemos las funciones con las que se trabaja el objeto 'Customer'.
             switch (option) 
             {
                 case "1":
@@ -62,7 +71,7 @@ public class AccountSettingsScreen implements ScreenBase {
                     System.out.println("Cuenta eliminada");
                     appContext.deleteCustomerAccount();
                     appContext.goToScreen(ScreenOption.MainScreen);
-                    break;
+                    return;
                 default:
                     break;
                 }

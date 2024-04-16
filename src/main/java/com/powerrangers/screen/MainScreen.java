@@ -1,5 +1,4 @@
 package com.powerrangers.screen;
-
 import com.powerrangers.AppContext;
 import com.powerrangers.db.types.*;
 import com.powerrangers.util.*;
@@ -10,7 +9,7 @@ public class MainScreen implements ScreenBase
     public void show(AppContext appContext) 
     {
         System.out.println("Pantalla principal");
-
+        //
 
         System.out.println("Juegos disponibles: ");
         Game[] games = appContext.getDbContext().getGames();
