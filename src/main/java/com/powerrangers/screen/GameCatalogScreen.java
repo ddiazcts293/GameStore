@@ -26,6 +26,7 @@ public class GameCatalogScreen implements ScreenBase
                 appContext.goToPreviousScreen();
                 break;
             case "2":
+            System.out.println("Hola");
                 break;
             default:
                 break;
