@@ -19,13 +19,13 @@ public class LoginScreen implements ScreenBase
     {
         // Toma la instancia previamente inicializada de Scanner
         Scanner scanner = appContext.getScanner();
-        // Declara algunas variables para almacenar los datos ingresados
+        // Declara las variables para almacenar los datos ingresados
         String email, password, chosenOption;
-        // Declara una variable para indicar el resultado del inicio de sesión
+        // Declara una variable para indicar si el inicio de sesión fue exitoso
         boolean successfulLogin;
 
-        // Bucle que se ejecutará indefinidamente para solicitar los datos de
-        // inicio de sesión
+        // Bucle que se ejecutará hasta que se inicie sesión exitosamente o
+        // hasta que se elija hacer otra acción si lo anterior falla
         do
         {
             // Solicita las credenciales de acceso
@@ -43,7 +43,11 @@ public class LoginScreen implements ScreenBase
             // bienvenida y regresa al menú principal
             if (successfulLogin)
             {
-                System.out.println("Inicio de sesión exitoso");
+                System.out.printf(
+                    "Bienvenido %s!\n", 
+                    appContext.getCurrenCustomer().username);
+
+                // Termina el bucle actual
                 break;
             }
             // Si no lo fue, le pregunta al usuario que acción desea realizar
@@ -65,7 +69,8 @@ public class LoginScreen implements ScreenBase
                 switch (chosenOption)
                 {
                     case "1":
-                        // Vuelve a solicitar que se ingresen las credenciales
+                        // Vuelve al comienzo del bucle para solicitar que se
+                        // ingresen nuevamente las credenciales de acceso
                         continue;
                     case "2":
                         // Navega hacia la sección de registro de cliente
