@@ -93,6 +93,7 @@ public class DbContext
     // Elimina a un cliente de la base de datos.
     public boolean deleteCustomer(Customer customer)
     {
+        customerList.remove(customer);
         return true;
     }
 
@@ -234,17 +235,29 @@ public class DbContext
 
         Customer admin = new Customer(
             1,
-            "@denny",
+            "@danny",
             "Denny DZ"
         );
         admin.credentials = new CustomerCredentials(
             1,
-            "denny@gmail.com",
+            "danny@gmail.com",
             "1234"
         );
 
         customerList.add(admin);
 
+        Customer dorito = new Customer(
+            2,
+            "@eldorito",
+            "Luis"
+        );
+        dorito.credentials = new CustomerCredentials(
+            2,
+            "dorito@gmail.com",
+            "1234"
+        );
+
+        customerList.add(dorito);
         listsPopulated = true;
     }
 

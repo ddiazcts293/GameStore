@@ -15,7 +15,7 @@ public class AccountSettingsScreen implements ScreenBase {
         DbContext dbContext = appContext.getDbContext();
         Scanner scanner = appContext.getScanner();
 
-        Customer customer = new Customer();
+        Customer customer = appContext.getCurrentCustomer();
         String option;
 
         do
@@ -60,7 +60,7 @@ public class AccountSettingsScreen implements ScreenBase {
                     break;
                 case "5":
                     System.out.println("Cuenta eliminada");
-                    dbContext.updateCustomer(customer);
+                    appContext.deleteCustomerAccount();
                     appContext.goToScreen(ScreenOption.MainScreen);
                     break;
                 default:
