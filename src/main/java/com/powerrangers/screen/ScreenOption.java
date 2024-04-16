@@ -9,5 +9,6 @@ public enum ScreenOption
     AccountSettings,
     GameLibrary,
     GameCatalog,
+    Purchase,
     AddFunds,
 }
