@@ -20,15 +20,25 @@ public class Console
         System.out.print("\033[u");
     }
 
+    public static void clearLine()
+    {
+        clearLine(2);
+    }
+
     public static void clearLine(int flag)
     {
         if (flag >= 0 && flag <= 2)
-            System.out.printf("\033[%dK", flag);
+            System.out.printf("\033[%dK\r", flag);
     }
+
+    public static void clearDisplay()
+    {
+        clearDisplay(2);
+    }    
 
     public static void clearDisplay(int flag)
     {
-        if (flag >= 0 && flag <= 4)
-            System.out.printf("\033[%dJ", flag);
+        if (flag >= 0 && flag <= 3)
+            System.out.printf("\033[%dJ\033[H", flag);
     }
 }
