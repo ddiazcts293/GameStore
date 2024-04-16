@@ -45,7 +45,7 @@ public class LoginScreen implements ScreenBase
             {
                 System.out.printf(
                     "Bienvenido %s!\n", 
-                    appContext.getCurrenCustomer().username);
+                    appContext.getCurrentCustomer().username);
 
                 // Termina el bucle actual
                 break;
