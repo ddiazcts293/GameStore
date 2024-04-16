@@ -22,26 +22,37 @@ public class MainScreen implements ScreenBase
 
         System.out.println("Que desea hacer?");
 
-        Menu menu = appContext.createMenu()
-            .AddItem("1", "Explorar el catágolo de juegos")
-            .AddItem("2", "Iniciar sesión")
-            .AddItem("3", "Registrarse")
-            .AddItem("4", "Salir");
+        Menu menu = appContext.createMenu();
+        menu.AddItem("C", "Explorar el catágolo de juegos");
+        
+        if (!appContext.isLoggedIn())
+        {
+            menu.AddItem("I", "Iniciar sesión");
+            menu.AddItem("R", "Registrarse");
+        }
+        else
+        {
+            menu.AddItem("A", "Ajustes de cuenta");
+        }
+
+        menu.AddItem("S", "Salir");
 
         String chosenOption = menu.show();
-
         switch (chosenOption) 
         {
-            case "1":
+            case "C":
                 appContext.goToScreen(ScreenOption.GameCatalog);
                 break;
-            case "2":
+            case "I":
                 appContext.goToScreen(ScreenOption.Login);
                 break;
-            case "3":
+            case "R":
                 appContext.goToScreen(ScreenOption.SignUp);
                 break;
-            case "4":
+            case "A":
+                appContext.goToScreen(ScreenOption.AccountSettings);
+                break;
+            case "S":
                 appContext.exit();
                 break;
             default:

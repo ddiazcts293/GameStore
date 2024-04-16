@@ -22,34 +22,12 @@ public class DbContext
 
     //#region Public methods
 
-    // Inicio de sesión
-    public Customer login(String email, String password)
+    public Customer[] getCustomers()
     {
-        Customer foundCustomer = null;
+        Customer[] customerArray = new Customer[customerList.size()];
+        customerList.toArray(customerArray);
 
-        // Bucle que recorre la lista de usuarios registrados
-        for (Customer customer : customerList) 
-        {
-            var testCredentials = customer.credentials;
-
-            // Verifica si tanto el email como la contrasena coinciden con las
-            // del cliente actual
-            if (testCredentials.email.compareTo(email) == 0 &&
-                testCredentials.password.compareTo(password) == 0)
-            {
-                // Obtiene la informacion del cliente actual
-                foundCustomer = customer;
-                break; // Sale del ciclo
-            }
-        }
-
-        return foundCustomer;
-    }
-
-    // Registro de cliente
-    public boolean signup(Customer customer)
-    {
-        return true;
+        return customerArray;
     }
 
     // Devuelve un arreglo de todas las categorias de juegos.
@@ -92,6 +70,12 @@ public class DbContext
         filteredGameList.toArray(filteredGameArray);
 
         return filteredGameArray;
+    }
+
+    public boolean createCustomer(Customer customer)
+    {
+        customerList.add(customer);
+        return true;
     }
 
     // Actualiza la informacion de un cliente.

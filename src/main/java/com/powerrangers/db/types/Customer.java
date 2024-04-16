@@ -10,7 +10,9 @@ public class Customer
 {
     // Constructor predeterminado
     public Customer()
-    { }
+    { 
+        credentials = new CustomerCredentials();
+    }
 
     // Constructor que recibe la información de un cliente
     public Customer(
@@ -21,7 +23,7 @@ public class Customer
         id = _id;
         username = _username;
         name = _name;
-        credentials = null;
+        credentials = new CustomerCredentials();
     }
 
     // Identificador de cliente

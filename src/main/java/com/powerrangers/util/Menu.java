@@ -9,22 +9,44 @@
 package com.powerrangers.util;
 
 import java.util.Scanner;
-import java.util.HashMap;
+import java.util.*;
 
 public class Menu 
 {
+    private class MenuItem
+    {
+        private String _key;
+        private String _text;
+        
+        public MenuItem(String key, String text)
+        {
+            _key = key;
+            _text = text;
+        }
+     
+        public String getKey()
+        {
+            return _key;
+        }
+
+        public String getText()
+        {
+            return _text;
+        }
+    }
+
     private Scanner _scanner;
-    private HashMap<String, String> _items;
+    private ArrayList<MenuItem> _items;
 
     public Menu(Scanner scanner)
     { 
         _scanner = scanner;
-        _items = new HashMap<>();
+        _items = new ArrayList<>();       
     }
 
     public Menu AddItem(String key, String text)
     {
-        _items.put(key, text);
+        _items.add(new MenuItem(key, text));
         return this;
     }
 
@@ -36,9 +58,13 @@ public class Menu
     public String show(String prompt)
     {
         String enteredKey = "";
+        boolean exitFromLoop = false;
 
         System.out.println();
-        _items.forEach((k, s) -> System.out.printf("[%s] - %s\n\033[s", k, s));
+        _items.forEach((item) -> 
+            System.out.printf("[%s] - %s\n\033[s", 
+                item.getKey(), 
+                item.getText()));
 
         do
         {
@@ -50,9 +76,18 @@ public class Menu
             }
             catch (Exception ex)
             {
+                continue;
+            }
+
+            for (var item : _items) 
+            {
+                if (item.getKey().compareTo(enteredKey) == 0)
+                {
+                    exitFromLoop = true;
+                }    
             }
         }
-        while (!_items.containsKey(enteredKey));
+        while (!exitFromLoop);
 
         return enteredKey;
     }
