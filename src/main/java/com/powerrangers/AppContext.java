@@ -140,7 +140,7 @@ public class AppContext
      * 
      * @return Objeto Customer
      */
-    public Customer getCurrenCustomer()
+    public Customer getCurrentCustomer()
     {
         return _currentCustomer;
     }
@@ -238,7 +238,7 @@ public class AppContext
         
         if (instance != null)
         {
-            //Console.clearDisplay(2);
+            Console.clearDisplay(2);
             instance.show(this);
         }
     }
