@@ -61,29 +61,55 @@ Cada apartado se encuentra definido dentro de una clase separada. Todas ellas co
 
 Asimismo, la función ```show``` recibe un argumento llamado ``appContext``, el cual es un objeto que alberga todos los componentes que se comparten en todo el programa, tales como el objeto ```Scanner```, el objeto de la base de datos, etc.
 
-## Objeto ``appContext``
+## Funciones: objeto ``appContext``
 
-Funciones:
+### General
+
 - ```initialize()``` - Inicializa el objeto. Solo puede ser llamada una vez.
 - ```exit()``` - Finaliza el programa.
 - ```goToScreen([Screen])``` - Navega hacia la pantalla especificada.
 - ```goToPreviousScreen()```- Navega hacia la pantalla anterior.
 - ```getScanner()``` - Obtiene la instancia de ```Scanner``` para todo el programa.
 - ```getDbContext()```- Obtiene la instancia de la conexión de la base de datos.
-- ```getCurrentCustomer()``` - Obtiene el objeto ```Customer```asociado al cliente que ha iniciado sesión. Devuelve ```null``` si no se ha iniciado sesión.
-- ```isLoggedIn()``` - Devuelve un indicador booleano que específica si se ha iniciado sesión.
-- ```login()``` - Inicia sesión
-- ```signup()``` - Registra a un nuevo cliente.
-- ```deleteCustomerAccount()``` - Borra la cuenta del cliente actual.
 - ```createMenu()``` - Crea un objeto para mostrar un menú.
 
-## Objeto ``dbContext``
+### Control de inicio de sesión
 
-Funciones:
+- ```getCurrentCustomer()``` - Obtiene el objeto ```Customer```asociado al cliente que ha iniciado sesión. Devuelve ```null``` si no se ha iniciado sesión.
+- ```isLoggedIn()``` - Devuelve un indicador booleano que específica si se ha iniciado sesión.
+- ```login([Email], [Password])``` - Inicia sesión
+- ```signup([Customer])``` - Registra a un nuevo cliente.
+- ```deleteCustomerAccount()``` - Borra la cuenta del cliente actual.
+
+## Funciones: Objeto ``dbContext``
+
+### Manejo de cuentas de clientes
+
 - ```getCustomers()``` - Obtiene un arreglo con la lista de todos los clientes registrados.
+- ```registerCustomer()``` - Registra a un cliente nuevo.
+- ```updateCustomer()``` - Actualiza la información de un cliente.
+- ```updateCustomerCredentials()``` - Actualiza las credenciales de un cliente.
+- ```deleteCustomer()``` - Elimina a un cliente registrado.
+
+### Catálogo de juegos
+
 - ```getGameCategories()``` - Obtiene un arreglo que contiene todas las categorías de juegos disponibles.
 - ```getGames()``` - Obtiene un arreglo que contiene todos los juegos registrados en la base de datos.
 - ```getGames([Category])``` - Obtiene un arreglo que contiene todos los juegos que corresponen a una categoría.
-- ```createCustomer()``` - Registra a un cliente nuevo.
-- ```updateCustomer()``` - Actualiza la información de un cliente.
-- ```deleteCustomer()``` - Elimina a un cliente registrado.
+
+### Manejo de lista de deseos
+
+```addGameToWishList([Customer], [Game])``` - Agrega un juego a la lista de deseos de un cliente.
+```removeGameFromWishList([GameInWishList])``` - Quita un juego de la lista de deseos de un cliente.
+```getCustomerWishList([Customer])``` - Obtiene un arreglo que contiene la lista de deseos de un cliente.
+
+### Manejo de carrito de compras
+
+- ```addGameToShoppingCar([Customer], [Game])``` - Agrega un juego al carrito de compras de un cliente.
+- ```removeGameFromShoppingCar([GameInShoppingCar])``` - Quita un juego del carrito de compras de un cliente.
+- ```getCustomerShoppingCar([Customer])``` - Obtiene un arreglo que contiene todos los elementos en el carrito de compras de un cliente.
+
+### Manejo de lista de juegos comprados
+
+- ```buyGame([Customer], [Game])``` - Compra un juego.
+- ```getPurchasedGames([Customer])``` - Obtiene un arreglo que contiene todos los juegos comprados por un cliente.

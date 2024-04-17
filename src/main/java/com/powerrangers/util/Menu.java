@@ -50,6 +50,11 @@ public class Menu
         return this;
     }
 
+    public void clear()
+    {
+        _items.clear();
+    }
+
     public String show()
     {
         return show("");

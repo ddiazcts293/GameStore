@@ -7,6 +7,7 @@
 
 package com.powerrangers.db;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import com.powerrangers.db.types.*;
 
@@ -17,18 +18,13 @@ public class DbContext
     private ArrayList<GameCategory> categoryList = new ArrayList<>();
     private ArrayList<Game> gameList = new ArrayList<>();
     private ArrayList<Customer> customerList = new ArrayList<>();
+    private ArrayList<GameInShoppingCar> shoppingCars = new ArrayList<>();
+    private ArrayList<GameInWishList> wishLists = new ArrayList<>();
+    private ArrayList<PurchasedGame> purchasedGames = new ArrayList<>();
 
     private boolean listsPopulated = false;
 
-    //#region Public methods
-
-    public Customer[] getCustomers()
-    {
-        Customer[] customerArray = new Customer[customerList.size()];
-        customerList.toArray(customerArray);
-
-        return customerArray;
-    }
+    //#region Catálogo de juegos
 
     // Devuelve un arreglo de todas las categorias de juegos.
     public GameCategory[] getGameCategories()
@@ -72,29 +68,138 @@ public class DbContext
         return filteredGameArray;
     }
 
-    public boolean createCustomer(Customer customer)
+    //#endregion
+
+    //#region Manejo de cuentas de clientes 
+
+    /**
+     * Obtiene la lista de clientes registrados.
+     */
+    public Customer[] getCustomers()
+    {
+        Customer[] customerArray = new Customer[customerList.size()];
+        customerList.toArray(customerArray);
+
+        return customerArray;
+    }
+
+    /**
+     * Registra una nueva cuenta de cliente.
+     * 
+     * @param customer Objeto con la información del cliente.
+     * @return
+     */
+    public boolean registerCustomer(Customer customer)
     {
         customerList.add(customer);
         return true;
     }
 
-    // Actualiza la informacion de un cliente.
+    /**
+     * Actualiza la informacion de un cliente.
+     * 
+     * @param customer Objeto con la información del cliente.
+     * @return
+     */
     public boolean updateCustomer(Customer customer)
     {
         return true;
     }
 
-    // Actualiza la informacion de inicio de sesion de un cliente.
+    /**
+     * Actualiza la informacion de inicio de sesion de un cliente.
+     * 
+     * @param credentials Objeto con las credenciales del cliente.
+     * @return
+     */
     public boolean updateCustomerCredentials(CustomerCredentials credentials)
     {
         return true;
     }
 
-    // Elimina a un cliente de la base de datos.
+    /**
+     * Elimina la cuenta de un cliente.
+     * 
+     * @param customer Objeto con la información del cliente.
+     * @return
+     */
     public boolean deleteCustomer(Customer customer)
     {
         customerList.remove(customer);
         return true;
+    }
+
+    //#endregion
+
+    //#region Manejo de lista de deseos
+
+    public boolean addGameToWishList(Customer customer, Game game)
+    {
+        GameInWishList gameInWishList = new GameInWishList();
+        gameInWishList.customer = customer;
+        gameInWishList.game = game;
+        gameInWishList.date = LocalDate.now();
+
+        wishLists.add(gameInWishList);
+        return true;
+    }
+
+    public boolean removeGameFromWishList(GameInWishList gameInWishList)
+    {
+        wishLists.remove(gameInWishList);
+        return true;
+    }
+
+    public GameInWishList[] getCustomerWishList(Customer customer)
+    {
+        ArrayList<GameInWishList> filteredWishList = new ArrayList<>();
+        GameInWishList[] filteredWishListArray;
+
+        for (GameInWishList gameInWishList : wishLists) 
+        {
+            if (gameInWishList.customer.id == customer.id)
+            {
+                filteredWishList.add(gameInWishList);
+            }
+        }
+
+        filteredWishListArray = new GameInWishList[filteredWishList.size()];
+        filteredWishList.toArray(filteredWishListArray);
+
+        return filteredWishListArray;
+    }
+
+    //#endregion
+
+    //#region Manejo de carrito de compras
+
+    public boolean addGameToShoppingCar(Customer customer, Game game)
+    {
+        return true;
+    }
+
+    public boolean removeGameFromShoppingCar(Customer customer, GameInWishList gameInWishList)
+    {
+        return true;
+    }
+
+    public GameInShoppingCar[] getCustomerShoppingCar(Customer customer)
+    {
+        return new GameInShoppingCar[0];
+    }
+
+    //#endregion
+
+    //#region Manejo de lista de juegos comprados
+
+    public boolean buyGame(Customer customer, Game game)
+    {
+        return true;
+    }
+
+    public PurchasedGame[] getPurchasedGames(Customer customer)
+    {
+        return new PurchasedGame[0];
     }
 
     //#endregion
@@ -236,7 +341,7 @@ public class DbContext
         Customer admin = new Customer(
             1,
             "@danny",
-            "Denny DZ"
+            "Danny DZ"
         );
         admin.credentials = new CustomerCredentials(
             1,

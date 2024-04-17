@@ -194,7 +194,7 @@ public class AppContext
      */
     public boolean signup(Customer customer)
     {
-        boolean result = _dbContext.createCustomer(customer);
+        boolean result = _dbContext.registerCustomer(customer);
         if (result)
         {
             _currentCustomer = customer;
