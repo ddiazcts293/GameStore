@@ -69,6 +69,7 @@ public class GameCatalogScreen implements ScreenBase
                 if (MenuSelection.compareTo("R") == 0)
                 {
                     appContext.goToPreviousScreen();
+                    return; // Evita que regrese a este punto si se sale de la pantalla anterior
                 }
                 
 
