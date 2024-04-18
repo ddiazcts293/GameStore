@@ -77,7 +77,7 @@ Asimismo, la función ```show``` recibe un argumento llamado ``appContext``, el 
 
 - ```getCurrentCustomer()``` - Obtiene el objeto ```Customer```asociado al cliente que ha iniciado sesión. Devuelve ```null``` si no se ha iniciado sesión.
 - ```isLoggedIn()``` - Devuelve un indicador booleano que específica si se ha iniciado sesión.
-- ```login([Email], [Password])``` - Inicia sesión
+- ```login([UserName or Email], [Password])``` - Inicia sesión
 - ```signup([Customer])``` - Registra a un nuevo cliente.
 - ```deleteCustomerAccount()``` - Borra la cuenta del cliente actual.
 
