@@ -15,10 +15,11 @@ public class PurchaseScreen implements ScreenBase
         var shoppingCar = dbContext.getCustomerShoppingCar(appContext.getCurrentCustomer());
         float total = 0;
 
+        System.out.println("Lista de juegos seleccionados: ");
+
         for (int i = 0; i < shoppingCar.length; i++) {
             var gameInShoppingCar = shoppingCar[i];
 
-            System.out.println("Lista de juegos seleccionados: ");
             System.out.println("Juego: " + gameInShoppingCar.game.name);
             System.out.println("Precio: $" + gameInShoppingCar.game.price);
 
@@ -36,7 +37,9 @@ public class PurchaseScreen implements ScreenBase
         System.out.println("(1)Tarjeta de Crédito/Debito");
         System.out.println("(2)Fondos");
         int opc = scanner.nextInt();
+        scanner.nextLine();
         String banco = "";
+        
         int digitos = 0;
         int cvv = 0;
         String nombre = "";
@@ -47,8 +50,10 @@ public class PurchaseScreen implements ScreenBase
                 banco = scanner.nextLine();
                 System.out.println("Ingrese los números de la tarjeta: ");
                 digitos = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("Ingrese el CVV (Se encuentra detrás de la tarjeta): ");
                 cvv = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("Nombre completo del usuario: ");
                 nombre = scanner.nextLine();
                 break;
@@ -66,6 +71,7 @@ public class PurchaseScreen implements ScreenBase
         System.out.println("Quisiera agregar algún descuento?");
         System.out.println("(1)Si / (2)No");
         int descuento = scanner.nextInt();
+        scanner.nextLine();
 
         double totaldescuento = 0;
         
@@ -90,10 +96,11 @@ public class PurchaseScreen implements ScreenBase
         System.out.println("Monto Total : $"+totaldescuento);
         System.out.println("Escriba '1' para confirmar compra / Escriba '2' para cancelar");
         int confirmar = scanner.nextInt();
+        scanner.nextLine();
 
         switch (confirmar) {
             case 1:
-                System.out.println("¡Compra realiada!");
+                System.out.println("¡Compra realizada!");
                 break;
             case 2:
                 appContext.goToScreen(ScreenOption.MainScreen);
