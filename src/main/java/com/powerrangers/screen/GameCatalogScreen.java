@@ -12,6 +12,7 @@
 package com.powerrangers.screen;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import com.powerrangers.AppContext;           // Se inicializan las librerías...
 import com.powerrangers.db.DbContext;
@@ -89,8 +90,9 @@ public class GameCatalogScreen implements ScreenBase
                 .AddItem("R", "Regresar a consultar otros juegos.");     // o volver...
                 MenuSelection = menu.show();
 
-                switch (MenuSelection) {
-                    case "1":
+                if (appContext.isLoggedIn()) {                                    //Se agrega una condición para verificar que el
+                switch (MenuSelection) {                                          //usuario haya iniciado sesión antes de hacer una
+                    case "1":                                                     //operación...
                     dbContext.addGameToWishList(appContext.getCurrentCustomer(), selectedGame);
                     System.out.println("Artículo agregado a la lista de deseos. Regresando al menú anterior...");
                     break;
@@ -107,6 +109,15 @@ public class GameCatalogScreen implements ScreenBase
                     default:
                     break;
                 }
+            } else {
+                System.out.println("¡No ha iniciado sesión! Por favor, inicie sesión antes de realizar una operación...");
+                try {
+                    Thread.sleep(4000);
+                  } catch (InterruptedException e) {                         // Si el usuario no tiene sesión iniciada se le moverá
+                    Thread.currentThread().interrupt();                      // a la pantalla de inicio de sesión.
+                  }
+                appContext.goToScreen(ScreenOption.Login);
+            }
 
             }
         } while (true);

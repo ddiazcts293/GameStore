@@ -363,6 +363,19 @@ public class DbContext
         );
 
         customerList.add(dorito);
+
+        Customer Roberto = new Customer(
+            3,
+            "@daikirai",
+            "Roberto"
+        );
+        Roberto.credentials = new CustomerCredentials(
+            3,
+            "rcfb@gmail.com",
+            "DooM"
+        );
+
+        customerList.add(Roberto);
         listsPopulated = true;
     }
 
