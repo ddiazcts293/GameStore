@@ -1,8 +1,8 @@
 /*
  * Archivo: DbContext.java
  * Autor: Díaz Cortés Daniel Salomón
- * Descripción: Clase que representa un enlace entre el programa y la base de
- * datos.
+ * Descripción: Clase que proporciona las funciones necesarias para la 
+ * obtención y manipulación de la información provista por la base de datos.
  */
 
 package com.powerrangers.db;
@@ -22,31 +22,65 @@ public class DbContext
     private ArrayList<GameInWishList> wishLists = new ArrayList<>();
     private ArrayList<PurchasedGame> purchasedGames = new ArrayList<>();
 
+    /**
+     * Indica si se ha rellenado las listas internas.
+     */
     private boolean listsPopulated = false;
 
     //#region Catálogo de juegos
 
-    // Devuelve un arreglo de todas las categorias de juegos.
+    /**
+     * Obtiene un arreglo con todas las categorías de juegos disponibles.
+     * 
+     * @return Arreglo del tipo GameCategory.
+     */
     public GameCategory[] getGameCategories()
     {
+        // SELECT * FROM GameCategories
+        
         GameCategory[] categoryArray = new GameCategory[categoryList.size()];
         categoryList.toArray(categoryArray);
         
         return categoryArray;
     }
     
-    // Devuelve un arreglo de todos los juegos disponibles.
+    /**
+     * Obtiene un arreglo con todos los juegos disponibles.
+     * 
+     * @return Arreglo del tipo Game.
+     */
     public Game[] getGames()
     {
+        // SELECT * FROM Games
+        // SELECT * FROM GamesByCategories WHERE game_id = 1
+
         Game[] gameArray = new Game[gameList.size()];
         gameList.toArray(gameArray);
 
         return gameArray;
     }
 
-    // Devuelve un arreglo de los juegos disponibles de una categoria dada.
+    /**
+     * Obtiene un arreglo con todos los juegos disponibles que corresponden a 
+     * una categoría específica.
+     * 
+     * @param categoryToFilter Objeto GameCategory que representa la categoría 
+     * de juegos a obtener.
+     * @return Arreglo del tipo Game.
+     */
     public Game[] getGames(GameCategory categoryToFilter)
     {
+        // SELECT Games.id, Games.name, Games.developer, Games.year, Games.price, 
+        // Games.description FROM Games 
+        // INNER JOIN GamesByCategories
+        // ON Games.id = GamesByCategories.game_id
+        // WHERE GamesByCategories.category_id = 2
+
+        if (categoryToFilter == null)
+        {
+            return new Game[0];
+        }
+
         ArrayList<Game> filteredGameList = new ArrayList<>();
         Game[] filteredGameArray;
 
@@ -73,10 +107,15 @@ public class DbContext
     //#region Manejo de cuentas de clientes 
 
     /**
-     * Obtiene la lista de clientes registrados.
+     * Obtiene un arreglo con todos los clientes registrados.
+     * 
+     * NOTA: Está función será eliminada una vez que se implemente la base de 
+     * datos.
      */
     public Customer[] getCustomers()
     {
+        // SELECT * FROM Customers
+
         Customer[] customerArray = new Customer[customerList.size()];
         customerList.toArray(customerArray);
 
@@ -86,45 +125,60 @@ public class DbContext
     /**
      * Registra una nueva cuenta de cliente.
      * 
-     * @param customer Objeto con la información del cliente.
-     * @return
+     * @param customer Objeto Customer con la información del cliente.
+     * @return Valor booleano que indica si la operación tuvo éxito.
      */
     public boolean registerCustomer(Customer customer)
     {
+        // INSERT INTO Customers (name, username) VALUES ('%s', '%s')
+        // INSERT INTO CustomerCredentials (customer_id, email, password) 
+        // VALUES ([id], 'admin@gamestore.com', 'admin')
+
         customerList.add(customer);
         return true;
     }
 
     /**
-     * Actualiza la informacion de un cliente.
+     * Actualiza la información de un cliente.
      * 
-     * @param customer Objeto con la información del cliente.
-     * @return
+     * @param customer Objeto Customer con la información del cliente.
+     * @return Valor booleano que indica si la operación tuvo éxito.
      */
     public boolean updateCustomer(Customer customer)
     {
+        // UPDATE Customers 
+        // SET username = 'Elmer Homero', name = 'sysadmin' 
+        // WHERE id = 3
+
         return true;
     }
 
     /**
-     * Actualiza la informacion de inicio de sesion de un cliente.
+     * Actualiza la información de inicio de sesión de un cliente.
      * 
-     * @param credentials Objeto con las credenciales del cliente.
-     * @return
+     * @param credentials Objeto CustomerCredentials con las credenciales del 
+     * cliente.
+     * @return Valor booleano que indica si la operación tuvo éxito.
      */
     public boolean updateCustomerCredentials(CustomerCredentials credentials)
     {
+        // UPDATE CustomerCredentials 
+        // SET email = 'admin@gamestore.net', password = 'admin_123' 
+        // WHERE customer_id = '3'
+
         return true;
     }
 
     /**
      * Elimina la cuenta de un cliente.
      * 
-     * @param customer Objeto con la información del cliente.
-     * @return
+     * @param customer Objeto Customer con la información del cliente.
+     * @return Valor booleano que indica si la operación tuvo éxito.
      */
     public boolean deleteCustomer(Customer customer)
     {
+        // DELETE FROM Customers WHERE id = 3
+
         customerList.remove(customer);
         return true;
     }
@@ -133,8 +187,18 @@ public class DbContext
 
     //#region Manejo de lista de deseos
 
+    /**
+     * Agrega un juego a la lista de deseos de un cliente.
+     * 
+     * @param customer Objeto Customer con la información del cliente.
+     * @param game Objeto Game con la información del juego a agregar.
+     * @return Valor booleano que indica si la operación tuvo éxito.
+     */
     public boolean addGameToWishList(Customer customer, Game game)
     {
+        // INSERT INTO GamesInWishList (customer_id, game_id, date) 
+        // VALUES (2, 12, datetime())
+
         GameInWishList gameInWishList = new GameInWishList();
         gameInWishList.customer = customer;
         gameInWishList.game = game;
@@ -144,14 +208,43 @@ public class DbContext
         return true;
     }
 
+    /**
+     * Elimina un juego de la lista de deseos de un cliente.
+     * 
+     * @param gameInWishList Objeto GameInWishList con la información del juego
+     * agregado previamente.
+     * @return Valor booleano que indica si la operación tuvo éxito.
+     */
     public boolean removeGameFromWishList(GameInWishList gameInWishList)
     {
+        // DELETE FROM GamesInWishList WHERE id = 6
+
         wishLists.remove(gameInWishList);
         return true;
     }
 
+    /**
+     * Obtiene un arreglo con todos los juegos en la lista de deseos de un 
+     * cliente.
+     * 
+     * @param customer Objeto Customer con la información del cliente.
+     * @return Arreglo del tipo GameInWishList.
+     */
     public GameInWishList[] getCustomerWishList(Customer customer)
     {
+        // SELECT GamesInWishList.id, GamesInWishList.customer_id, 
+        // GamesInWishList.game_id, GamesInWishList.date, Games.name, 
+        // Games.price, Games.developer
+        // FROM ((GamesInWishList
+        // INNER JOIN Customers ON Customers.id = GamesInWishList.customer_id)
+        // INNER JOIN Games ON Games.id = GamesInWishList.game_id)
+        // WHERE GamesInWishList.customer_id = 1
+
+        if (customer == null)
+        {
+            return new GameInWishList[0];
+        }
+
         ArrayList<GameInWishList> filteredWishList = new ArrayList<>();
         GameInWishList[] filteredWishListArray;
 
@@ -173,33 +266,116 @@ public class DbContext
 
     //#region Manejo de carrito de compras
 
+    /**
+     * Agrega un juego al carrito de compras de un cliente.
+     * 
+     * @param customer Objeto Customer con la información del cliente.
+     * @param game Objeto Game con la información del juego a agregar.
+     * @return Valor booleano que indica si la operación tuvo éxito.
+     */
     public boolean addGameToShoppingCar(Customer customer, Game game)
     {
+        GameInShoppingCar gameInShoppingCar = new GameInShoppingCar();
+        gameInShoppingCar.customer = customer;
+        gameInShoppingCar.game = game;
+
+        shoppingCars.add(gameInShoppingCar);
         return true;
     }
 
-    public boolean removeGameFromShoppingCar(Customer customer, GameInWishList gameInWishList)
+    /**
+     * Elimina un juego del carrito de compras de un cliente.
+     * 
+     * @param gameInShoppingCar Objeto GameInShoppingCar con la información del
+     * juego agregado previamente.
+     * @return Valor booleano que indica si la operación tuvo éxito.
+     */
+    public boolean removeGameFromShoppingCar(GameInShoppingCar gameInShoppingCar)
     {
+        shoppingCars.remove(gameInShoppingCar);
         return true;
     }
 
+    /**
+     * Obtiene un arreglo con todos los juegos en el carrito de compras de un 
+     * cliente.
+     * 
+     * @param customer Objeto Customer con la información del cliente.
+     * @return Arreglo del tipo GameInShoppingCar.
+     */
     public GameInShoppingCar[] getCustomerShoppingCar(Customer customer)
     {
-        return new GameInShoppingCar[0];
+        if (customer == null)
+        {
+            return new GameInShoppingCar[0];
+        }
+
+        ArrayList<GameInShoppingCar> filteredList = new ArrayList<>();
+        GameInShoppingCar[] filteredArray;
+
+        for (GameInShoppingCar gameInShoppingCar : shoppingCars) 
+        {
+            if (gameInShoppingCar.customer.id == customer.id)
+            {
+                filteredList.add(gameInShoppingCar);
+            }
+        }
+
+        filteredArray = new GameInShoppingCar[filteredList.size()];
+        filteredList.toArray(filteredArray);
+
+        return filteredArray;
     }
 
     //#endregion
 
     //#region Manejo de lista de juegos comprados
 
+    /**
+     * Efectua la compra de un videojuego.
+     *  
+     * @param customer Objeto Customer con la información del cliente.
+     * @param game Objeto Game con la información del juego a comprar.
+     * @return Valor booleano que indica si la operación tuvo éxito.
+     */
     public boolean buyGame(Customer customer, Game game)
     {
+        PurchasedGame purchasedGame = new PurchasedGame();
+        purchasedGame.customer = customer;
+        purchasedGame.game = game;
+
+        purchasedGames.add(purchasedGame);
         return true;
     }
 
+    /**
+     * Obtiene un arreglo con todos los juegos que el cliente ha comprado.
+     * 
+     * @param customer Objeto Customer con la información del cliente.
+     * @return Arreglo del tipo PurchasedGame.
+     */
     public PurchasedGame[] getPurchasedGames(Customer customer)
     {
-        return new PurchasedGame[0];
+        if (customer == null)
+        {
+            return new PurchasedGame[0];
+        }
+
+        ArrayList<PurchasedGame> filteredList = new ArrayList<>();
+        PurchasedGame[] filteredArray;
+
+        for (PurchasedGame purchasedGame : purchasedGames) 
+        {
+            if (purchasedGame.customer.id == customer.id)
+            {
+                filteredList.add(purchasedGame);
+            }
+        }
+
+        filteredArray = new PurchasedGame[filteredList.size()];
+        filteredList.toArray(filteredArray);
+
+        return filteredArray;
     }
 
     //#endregion
@@ -320,7 +496,7 @@ public class DbContext
             new GameCategory[] { roleCategory }
         ));
         gameList.add(new Game(
-            6,
+            9,
             "Red Dead Redemption 2",
             "Rockstar Games",
             2019,
@@ -329,7 +505,7 @@ public class DbContext
             new GameCategory[] { actionCategory, adventureCategory }
         ));
         gameList.add(new Game(
-            6,
+            10,
             "God of War",
             "Santa Monica Studio",
             2022,
@@ -360,6 +536,52 @@ public class DbContext
             2,
             "dorito@gmail.com",
             "1234"
+        );
+
+        wishLists.add(new GameInWishList(
+            1, 
+            dorito, 
+            gameList.get(0))
+        );
+        wishLists.add(new GameInWishList(
+            2, 
+            dorito, 
+            gameList.get(4))
+        );
+        wishLists.add(new GameInWishList(
+            3, 
+            dorito, 
+            gameList.get(5))
+        );
+        wishLists.add(new GameInWishList(
+            4, 
+            admin, 
+            gameList.get(1))
+        );
+        wishLists.add(new GameInWishList(
+            5, 
+            admin, 
+            gameList.get(7))
+        );
+        wishLists.add(new GameInWishList(
+            6, 
+            admin, 
+            gameList.get(8))
+        );
+        shoppingCars.add(new GameInShoppingCar(
+            1, 
+            dorito, 
+            gameList.get(3))
+        );
+        shoppingCars.add(new GameInShoppingCar(
+            2, 
+            dorito, 
+            gameList.get(2))
+        );
+        shoppingCars.add(new GameInShoppingCar(
+            3, 
+            admin,
+            gameList.get(9))
         );
 
         customerList.add(dorito);
