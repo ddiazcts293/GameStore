@@ -87,6 +87,6 @@ public class LoginScreen implements ScreenBase
         }
         while (!successfulLogin);
 
-        appContext.goToScreen(ScreenOption.MainScreen);
+        appContext.goToPreviousScreen();
     }
 }

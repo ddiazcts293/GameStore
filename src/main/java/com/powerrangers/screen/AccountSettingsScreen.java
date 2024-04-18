@@ -58,13 +58,13 @@ public class AccountSettingsScreen implements ScreenBase {
                 case "3":
                     System.out.println("Por favor ingrese su nuevo Correo");
                     customer.credentials.email = scanner.nextLine();
-                    dbContext.updateCustomer(customer);
+                    dbContext.updateCustomerCredentials(customer.credentials);
                     System.out.println("Correo cambiado exitosamente");
                     break;
                 case "4":
                     System.out.println("Por favor ingrese su nueva contraseña");
                     customer.credentials.password = scanner.nextLine();
-                    dbContext.updateCustomer(customer);
+                    dbContext.updateCustomerCredentials(customer.credentials);
                     System.out.println("Contraseña cambiada exitosamente");
                     break;
                 case "5":
