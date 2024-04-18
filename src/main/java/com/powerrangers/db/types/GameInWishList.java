@@ -4,6 +4,7 @@ import java.time.*;
 
 public class GameInWishList 
 {
+    
     public GameInWishList()
     { }
     
@@ -24,4 +25,5 @@ public class GameInWishList
     public Game game;
 
     public LocalDate date;
+    
 }

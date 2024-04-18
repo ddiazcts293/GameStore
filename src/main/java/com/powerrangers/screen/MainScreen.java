@@ -35,6 +35,7 @@ public class MainScreen implements ScreenBase
         }
 
         menu.AddItem("RR", "Explorar la tendencia en videojuegos");
+        menu.AddItem("L", "Tu lista de deseos");
 
         menu.AddItem("S", "Salir");
 
@@ -53,6 +54,9 @@ public class MainScreen implements ScreenBase
             case "RR":
                 appContext.goToScreen(ScreenOption.Recommendation);
                 break;
+            case "L":
+                appContext.goToScreen(ScreenOption.GameLibrary);
+            break;
             case "A":
                 appContext.goToScreen(ScreenOption.AccountSettings);
                 break;
