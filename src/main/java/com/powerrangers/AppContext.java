@@ -23,10 +23,18 @@ public class AppContext
     private ScreenOption _previousScreen;
     private Customer _currentCustomer;
 
+    // Instancia de Scanner que se utiliza en todo el programa
     private Scanner _scanner;
+    // Instancia de conector con la base de datos
     private DbContext _dbContext;
+    // Un HashMap que almacena las instancias de las diferentes pantallas
     private HashMap<ScreenOption, ScreenBase> _screenInstances;
     
+    /**
+     * Constructor predeterminado.
+     * 
+     * @param scanner Instancia de la clase Scanner.
+     */
     public AppContext(Scanner scanner)
     {
         _inialized = false;
@@ -41,6 +49,8 @@ public class AppContext
         _screenInstances.put(ScreenOption.AccountSettings, new AccountSettingsScreen());
         _screenInstances.put(ScreenOption.GameLibrary, new GameLibraryScreen());
         _screenInstances.put(ScreenOption.GameCatalog, new GameCatalogScreen());
+        _screenInstances.put(ScreenOption.Purchase, new PurchaseScreen());
+        _screenInstances.put(ScreenOption.AddFunds, new AddFundsScreen());
     }
 
     // Metodos publicos
@@ -52,10 +62,18 @@ public class AppContext
      */
     public void initialize()
     {
+        // Verifica que no se haya inicializa previamente.
         if (!_inialized)
         {
             _inialized = true;
             
+            // Crea un bucle do-while que se ejecutará indefinidamente en el 
+            // cual se muestra la pantalla/menú principal hasta que el propio
+            // programa finalize, ya sea cerrando la ventana o al llamar a 
+            // exit().
+            // Esto es necesario para evitar que el programa termine 
+            // abruptamente después de mostrar una sección que no hace nada al
+            // llegar a su final.
             do
             {
                 goToScreen(ScreenOption.MainScreen);
@@ -69,45 +87,56 @@ public class AppContext
      */
     public void exit()
     {
-        // Implementar guardado base de datos
+        // NOTA: Implementar guardado y desconexión de la base de datos.
+
+        // Llamada a una función que finaliza el programa
         System.exit(0);
     }
 
     /**
-     * Cambia a una sección del programa especificada.
+     * Navega hacia una pantalla especifica.
      * 
-     * @param screen Sección a cambiar.
+     * @param screen Pantalla a dirigirse
      */
     public void goToScreen(ScreenOption screen)
     {
+        // Verifica que la opción recibida esté definida y no sea la misma que
+        // se está mostrando actualmente
         if (screen != ScreenOption.Unknown && _currentScreen != screen)
         {
+            // Actualiza los valores de las variables de pantalla previa y 
+            // pantalla actual
             _previousScreen = _currentScreen;
             _currentScreen = screen;
 
+            // Llama a la función que muestra la pantalla actual
             showCurrentScreen();
         }
     }
 
     /**
-     * Cambia a la sección mostrada previamente.
+     * Navega hacia la pantalla previamente mostrada.
      */
     public void goToPreviousScreen()
     {
+        // Verifica que la pantalla actual esté definida
         if (_currentScreen != ScreenOption.Unknown)
         {
+            // Actualiza los valores de las variables de pantalla previa y
+            // pantalla anterior
             ScreenOption screen = _previousScreen;
             _previousScreen = _currentScreen;
             _currentScreen = screen;
 
+            // Llama a la función que muestra la pantalla actual
             showCurrentScreen();
         }
     }
 
     /**
-     * Obtiene un indicador de la sección del programa mostrada actualmente.
+     * Obtiene un indicador de la pantalla mostrada actualmente.
      * 
-     * @return Indicador de la sección del programa.
+     * @return Indicador de la pantalla mostrada.
      */
     public ScreenOption getCurrentScreen()
     {
@@ -115,7 +144,8 @@ public class AppContext
     }
 
     /**
-     * Obtiene la instancia del objeto Scanner utilizada por todo el programa.
+     * Obtiene la instancia del objeto Scanner que es reutilizado para 
+     * recibir datos en diferentes formatos.
      * 
      * @return Objeto Scanner.
      */
@@ -135,10 +165,11 @@ public class AppContext
     }
 
     /**
-     * Obtiene la instancia del objeto Customer asociado al cliente con sesión
-     * iniciada.
+     * Obtiene el objeto Customer que contiene la información del cliente que 
+     * ha iniciado sesión (en caso de haberlo hecho).
      * 
-     * @return Objeto Customer
+     * @return Objeto Customer o null si aún no se ha iniciado sesión en 
+     * ninguna cuenta.
      */
     public Customer getCurrentCustomer()
     {
@@ -146,24 +177,28 @@ public class AppContext
     }
 
     /**
-     * Devuelve un indicador booleano que específica si un cliente ha iniciado
-     * sesión en el programa.
+     * Obtiene un valor booleano que indica si un cliente ha iniciado sesión en
+     * el programa.
      * 
      * @return Valor booleano.
      */
     public boolean isLoggedIn()
     {
+        // Devuelve el resultado de la comparación entre la variable que
+        // almacena el cliente actual y null
         return _currentCustomer != null;
     }
 
     /**
-     * Inicia sesión con base a la información de un cliente dada.
-     * @param email Correo del cliente.
+     * Inicia sesión con base a las credenciales de acceso de una cuenta de un
+     * cliente.
+     * 
+     * @param username Username o email del cliente.
      * @param password Contraseña del cliente.
      * 
      * @return Valor booleano que indica si la operación tuvo éxito.
      */
-    public boolean login(String email, String password)
+    public boolean login(String username, String password)
     {
         Customer[] customerList = _dbContext.getCustomers();
 
@@ -174,7 +209,7 @@ public class AppContext
 
             // Verifica si tanto el email como la contrasena coinciden con las
             // del cliente actual
-            if (testCredentials.email.compareTo(email) == 0 &&
+            if (testCredentials.email.compareTo(username) == 0 &&
                 testCredentials.password.compareTo(password) == 0)
             {
                 // Obtiene la informacion del cliente actual
@@ -194,7 +229,11 @@ public class AppContext
      */
     public boolean signup(Customer customer)
     {
+        // Realiza el registro de un cliente nuevo
         boolean result = _dbContext.registerCustomer(customer);
+
+        // Verifica si la operación tuvo éxito para establecer el valor de la
+        // variable que almacena el cliente actual
         if (result)
         {
             _currentCustomer = customer;
@@ -210,7 +249,12 @@ public class AppContext
      */
     public boolean deleteCustomerAccount()
     {
+        // Realiza el borrado de la cuenta de la base de datos
         boolean result = _dbContext.deleteCustomer(_currentCustomer);
+        
+        // Verifica si la operación tuvo éxito para restablecer el valor de la
+        // variable que almacena al cliente actual en null.
+        // Esto es para que el programa actue como si se haya cerrado la sesión
         if (result)
         {
             _currentCustomer = null;
@@ -220,7 +264,7 @@ public class AppContext
     }
 
     /**
-     * Crea un nuevo objeto Menú que, como su nombre lo indica, puede ser 
+     * Crea un nuevo objeto Menu que, como su nombre lo indica, puede ser 
      * utilizado para crear menús interactivos.
      * 
      * @return Objeto Menú
@@ -232,13 +276,21 @@ public class AppContext
 
     // Metodos privados
 
+    /**
+     * Función que muestra la pantalla actual.
+     */
     private void showCurrentScreen()
     {
+        // Obtiene la instancia correspondiente al indicador de pantalla
         var instance = _screenInstances.get(_currentScreen);
         
+        // Si la instancia no es null, entonces la muestra
         if (instance != null)
         {
+            // Llamada a la función que borra el contenido toda la pantalla
             Console.clearDisplay(2);
+            // Muestra la pantalla y le pasa como argumento la propia instancia
+            // de AppContext
             instance.show(this);
         }
     }
