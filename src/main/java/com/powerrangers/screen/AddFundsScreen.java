@@ -6,6 +6,6 @@ public class AddFundsScreen implements ScreenBase
     @Override
     public void show(AppContext appContext)
     {
-
+        
     }
 }

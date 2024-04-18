@@ -55,8 +55,8 @@ public class MainScreen implements ScreenBase
                 appContext.goToScreen(ScreenOption.Recommendation);
                 break;
             case "L":
-                appContext.goToScreen(ScreenOption.GameLibrary);
-            break;
+                appContext.goToScreen(ScreenOption.Purchase);
+                break;
             case "A":
                 appContext.goToScreen(ScreenOption.AccountSettings);
                 break;

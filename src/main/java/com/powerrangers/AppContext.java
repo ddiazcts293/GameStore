@@ -50,6 +50,7 @@ public class AppContext
         _screenInstances.put(ScreenOption.GameLibrary, new GameLibraryScreen());
         _screenInstances.put(ScreenOption.GameCatalog, new GameCatalogScreen());
         _screenInstances.put(ScreenOption.Recommendation, new RecommendationScreen());
+        _screenInstances.put(ScreenOption.Purchase, new PurchaseScreen());
     }
 
     // Metodos publicos
