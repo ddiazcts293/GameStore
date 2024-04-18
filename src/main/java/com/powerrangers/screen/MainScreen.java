@@ -34,6 +34,8 @@ public class MainScreen implements ScreenBase
             menu.AddItem("A", "Ajustes de cuenta");
         }
 
+        menu.AddItem("RR", "Explorar la tendencia en videojuegos");
+
         menu.AddItem("S", "Salir");
 
         String chosenOption = menu.show();
@@ -47,6 +49,9 @@ public class MainScreen implements ScreenBase
                 break;
             case "R":
                 appContext.goToScreen(ScreenOption.SignUp);
+                break;
+            case "RR":
+                appContext.goToScreen(ScreenOption.Recommendation);
                 break;
             case "A":
                 appContext.goToScreen(ScreenOption.AccountSettings);
