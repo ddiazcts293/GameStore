@@ -1,7 +1,8 @@
 package com.powerrangers.screen;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 import com.powerrangers.AppContext;
+import com.powerrangers.db.types.*;
 
 public class PurchaseScreen implements ScreenBase 
 {
@@ -66,8 +67,13 @@ public class PurchaseScreen implements ScreenBase
 
         //Aplicar descuento 
         System.out.println("Procesando...");
+        try 
+        {
+            Thread.sleep(1500);
+        } 
+        catch (Exception e) 
+        { }
         
-
         System.out.println("Quisiera agregar algún descuento?");
         System.out.println("(1)Si / (2)No");
         int descuento = scanner.nextInt();
@@ -100,7 +106,13 @@ public class PurchaseScreen implements ScreenBase
 
         switch (confirmar) {
             case 1:
+            for (GameInShoppingCar gameInShoppingCar : shoppingCar) {
+                dbContext.buyGame(
+                    gameInShoppingCar.customer, 
+                    gameInShoppingCar.game);
+                }
                 System.out.println("¡Compra realizada!");
+                
                 break;
             case 2:
                 appContext.goToScreen(ScreenOption.MainScreen);

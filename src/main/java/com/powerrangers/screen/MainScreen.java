@@ -8,21 +8,22 @@ public class MainScreen implements ScreenBase
     @Override
     public void show(AppContext appContext) 
     {
-        System.out.println("Pantalla principal");
-        //
-
-        System.out.println("Juegos disponibles: ");
-        Game[] games = appContext.getDbContext().getGames();
+        System.out.println("GameStore v1.0");
         
-        for (Game game : games)
+        if (appContext.isLoggedIn())
         {
-            System.out.println(game.name + " by " + game.developer);    
+            Customer loggedInCustomer = appContext.getCurrentCustomer();
+            System.out.printf("\n¡Bienvenido, %s!\n", loggedInCustomer.name);
+        }
+        else
+        {
+            System.out.println("Bienvenido");
         }
 
-        System.out.println("Que desea hacer?");
+        System.out.println("¿Qué le gustaría hacer?");
 
         Menu menu = appContext.createMenu();
-        menu.AddItem("C", "Explorar el catágolo de juegos");
+        menu.AddItem("J", "Explorar el catágolo de juegos");
         
         if (!appContext.isLoggedIn())
         {
@@ -31,19 +32,23 @@ public class MainScreen implements ScreenBase
         }
         else
         {
+            menu.AddItem("V", "Carrito de compras");
+            menu.AddItem("B", "Biblioteca");
             menu.AddItem("A", "Ajustes de cuenta");
+            menu.AddItem("C", "Cerrar sesión");
         }
 
         menu.AddItem("RR", "Explorar la tendencia en videojuegos");
-        menu.AddItem("L", "Tu lista de deseos");
-
         menu.AddItem("S", "Salir");
 
         String chosenOption = menu.show();
         switch (chosenOption) 
         {
-            case "C":
+            case "J":
                 appContext.goToScreen(ScreenOption.GameCatalog);
+                break;
+            case "B":
+                appContext.goToScreen(ScreenOption.GameLibrary);
                 break;
             case "I":
                 appContext.goToScreen(ScreenOption.Login);
@@ -51,10 +56,13 @@ public class MainScreen implements ScreenBase
             case "R":
                 appContext.goToScreen(ScreenOption.SignUp);
                 break;
+            case "C":
+                appContext.logout();
+                break;
             case "RR":
                 appContext.goToScreen(ScreenOption.Recommendation);
                 break;
-            case "L":
+            case "V":
                 appContext.goToScreen(ScreenOption.Purchase);
                 break;
             case "A":

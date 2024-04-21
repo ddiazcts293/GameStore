@@ -39,19 +39,9 @@ public class LoginScreen implements ScreenBase
             // operación
             successfulLogin = appContext.login(email, password);
             
-            // Si el inicio de sesión fue exitoso, muestra un mensaje de 
-            // bienvenida y regresa al menú principal
-            if (successfulLogin)
-            {
-                System.out.printf(
-                    "Bienvenido %s!\n", 
-                    appContext.getCurrentCustomer().username);
-
-                // Termina el bucle actual
-                break;
-            }
-            // Si no lo fue, le pregunta al usuario que acción desea realizar
-            else
+            // Si el inicio de sesión no fue exitoso, le pregunta al usuario 
+            // que acción desea realizar
+            if (!successfulLogin)
             {
                 // Informa al usuario acerca del suceso
                 System.out.println("Error: email o contraseña incorrecta");

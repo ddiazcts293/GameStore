@@ -5,7 +5,7 @@
  * 
  */
 package com.powerrangers.screen;
-import java.util.Scanner;
+//import java.util.Scanner;
 import com.powerrangers.AppContext;           
 import com.powerrangers.util.*;
 public class RecommendationScreen implements ScreenBase
@@ -13,7 +13,7 @@ public class RecommendationScreen implements ScreenBase
 
     @Override
     public void show(AppContext appContext) {
-        Scanner scanner = appContext.getScanner();
+        //Scanner scanner = appContext.getScanner();
         System.out.println("¡Recomendaciones para tu primer compra!");                
         Menu menu = appContext.createMenu();
         String MenuSelection;
@@ -40,11 +40,22 @@ public class RecommendationScreen implements ScreenBase
         System.out.println("5.Baldur´s Ring - G0");
         System.out.println("");
         
-        
-
         menu.AddItem("R", "Regresar al menu anterior"); 
         menu.AddItem("S", "Salir"); 
-        MenuSelection = menu.show();                   
+        MenuSelection = menu.show();    
+        
+        switch (MenuSelection) 
+        {
+            case "R":
+                appContext.goToPreviousScreen();
+                return;
+            case "S":
+                appContext.exit();
+                break;
+            default:
+                break;
+        }
+        
     }
     
 

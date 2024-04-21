@@ -65,6 +65,21 @@ public class AppContext
         // Verifica que no se haya inicializa previamente.
         if (!_inialized)
         {
+            // Define la cadena de conexión
+            // Sustituir por la dirección IP del servidor
+            //String dbUrl = "jdbc:mysql://192.168.1.1:3306/GameStore";
+            String dbUrl = "jdbc:mysql://192.168.129.195:3306/GameStore";
+            
+            if (!_dbContext.connectToMySQL(dbUrl))
+            {
+                System.out.println("Error al conectar a base de datos");
+                exit();
+            }
+            else
+            {
+                System.out.println("Conexión con base de datos establecida!");
+            }
+
             _inialized = true;
             
             // Crea un bucle do-while que se ejecutará indefinidamente en el 
@@ -102,7 +117,8 @@ public class AppContext
     {
         // Verifica que la opción recibida esté definida y no sea la misma que
         // se está mostrando actualmente
-        if (screen != ScreenOption.Unknown && _currentScreen != screen)
+        if ((screen == ScreenOption.MainScreen) || 
+            (screen != ScreenOption.Unknown && _currentScreen != screen))
         {
             // Actualiza los valores de las variables de pantalla previa y 
             // pantalla actual
@@ -193,32 +209,21 @@ public class AppContext
      * Inicia sesión con base a las credenciales de acceso de una cuenta de un
      * cliente.
      * 
-     * @param username Username o email del cliente.
+     * @param email Email del cliente.
      * @param password Contraseña del cliente.
      * 
      * @return Valor booleano que indica si la operación tuvo éxito.
      */
-    public boolean login(String username, String password)
+    public boolean login(String email, String password)
     {
-        Customer[] customerList = _dbContext.getCustomers();
-
-        // Bucle que recorre la lista de usuarios registrados
-        for (Customer customer : customerList) 
-        {
-            var testCredentials = customer.credentials;
-
-            // Verifica si tanto el email como la contrasena coinciden con las
-            // del cliente actual
-            if (testCredentials.email.compareTo(username) == 0 &&
-                testCredentials.password.compareTo(password) == 0)
-            {
-                // Obtiene la informacion del cliente actual
-                _currentCustomer = customer;
-                break; // Sale del ciclo
-            }
-        }
+        _currentCustomer = _dbContext.searchCustomer(email, password);
 
         return isLoggedIn();
+    }
+
+    public void logout()
+    {
+        _currentCustomer = null;
     }
 
     /**

@@ -11,9 +11,6 @@
 
 package com.powerrangers.screen;
 
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-
 import com.powerrangers.AppContext;           // Se inicializan las librerías...
 import com.powerrangers.db.DbContext;
 import com.powerrangers.db.types.*;
@@ -24,7 +21,6 @@ public class GameCatalogScreen implements ScreenBase
     @Override
     public void show(AppContext appContext)                          //Se mandan a llamar las clases, variables y arreglos
     {                                                                //que necesitaremos para el apartado del catálogo...
-        Scanner scanner = appContext.getScanner();
         DbContext dbContext = appContext.getDbContext();
         GameCategory[] categories = dbContext.getGameCategories();
         String MenuSelection;
@@ -104,8 +100,8 @@ public class GameCatalogScreen implements ScreenBase
                     break;
 
                     case "R":
-                    System.out.println("Regresando al menú anterior...");
-                    break;
+                    System.out.println("Regresando al menú principal...");
+                    return;
 
                     default:
                     break;
@@ -113,10 +109,11 @@ public class GameCatalogScreen implements ScreenBase
             } else {
                 System.out.println("¡No ha iniciado sesión! Por favor, inicie sesión antes de realizar una operación...");
                 try {
-                    Thread.sleep(4000);
+                    Thread.sleep(2000);
                   } catch (InterruptedException e) {                         // Si el usuario no tiene sesión iniciada se le moverá
                     Thread.currentThread().interrupt();                      // a la pantalla de inicio de sesión.
                   }
+
                 appContext.goToScreen(ScreenOption.Login);
             }
 

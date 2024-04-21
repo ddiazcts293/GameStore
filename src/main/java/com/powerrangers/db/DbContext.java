@@ -7,12 +7,15 @@
 
 package com.powerrangers.db;
 
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import com.powerrangers.db.types.*;
 
 public class DbContext 
 {
+    Connection _dbConnection = null;
+
     // Define las listas de catalogo y de usuarios registrados
     // Por ahora se limitará a almacenar los datos en la memoria estática
     private ArrayList<GameCategory> categoryList = new ArrayList<>();
@@ -27,6 +30,21 @@ public class DbContext
      */
     private boolean listsPopulated = false;
 
+    public boolean connectToMySQL(String connectionString)
+    {
+        try
+        {
+            _dbConnection = DriverManager.getConnection(
+                connectionString, "program", "superpwd");
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     //#region Catálogo de juegos
 
     /**
@@ -36,12 +54,31 @@ public class DbContext
      */
     public GameCategory[] getGameCategories()
     {
-        // SELECT * FROM GameCategories
-        
-        GameCategory[] categoryArray = new GameCategory[categoryList.size()];
-        categoryList.toArray(categoryArray);
-        
-        return categoryArray;
+        ArrayList<GameCategory> list = new ArrayList<>();
+
+        try (var statement = _dbConnection.createStatement())
+        {
+            String sqlQuery = "SELECT * FROM GameCategories";
+            var resultSet = statement.executeQuery(sqlQuery);
+
+            while (resultSet.next()) 
+            {
+                GameCategory category = new GameCategory();
+                category.id = resultSet.getInt("id");
+                category.title = resultSet.getString("title");    
+                category.description = resultSet.getString("description");
+
+                list.add(category);
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+        GameCategory[] array = new GameCategory[list.size()];
+        list.toArray(array);
+        return array;
     }
     
     /**
@@ -107,19 +144,48 @@ public class DbContext
     //#region Manejo de cuentas de clientes 
 
     /**
-     * Obtiene un arreglo con todos los clientes registrados.
+     * Obtiene un objeto con la información de un cliente con base a sus
+     * credenciales de acceso.
      * 
-     * NOTA: Está función será eliminada una vez que se implemente la base de 
-     * datos.
      */
-    public Customer[] getCustomers()
+    public Customer searchCustomer(String email, String password)
     {
-        // SELECT * FROM Customers
+        Customer foundCustomer = null;
 
-        Customer[] customerArray = new Customer[customerList.size()];
-        customerList.toArray(customerArray);
+        try
+        {
+            String sqlQuery = 
+                "SELECT * " +
+                "FROM Customers " +
+                "INNER JOIN CustomerCredentials " +
+                "ON Customers.id = CustomerCredentials.customer_id " +
+                "WHERE CustomerCredentials.email = ? " +
+                "AND CustomerCredentials.password = ?";
 
-        return customerArray;
+            var statement = _dbConnection.prepareStatement(sqlQuery);
+            statement.setString(1, email);
+            statement.setString(2, password);
+            var resultSet = statement.executeQuery();
+
+            if (resultSet.next()) 
+            {
+                foundCustomer = new Customer();
+                foundCustomer.id = resultSet.getInt(1);
+                foundCustomer.username = resultSet.getString(2);    
+                foundCustomer.name = resultSet.getString(3);
+                foundCustomer.credentials.id = resultSet.getInt(4);
+                foundCustomer.credentials.email = resultSet.getString(5);
+                foundCustomer.credentials.password = resultSet.getString(6);
+                foundCustomer.credentials.customer = foundCustomer;
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error: " + ex.getMessage());
+            foundCustomer = null;
+        }
+
+        return foundCustomer;
     }
 
     /**
@@ -130,11 +196,59 @@ public class DbContext
      */
     public boolean registerCustomer(Customer customer)
     {
-        // INSERT INTO Customers (name, username) VALUES ('%s', '%s')
+        // INSERT INTO Customers (name, username) VALUES (?, ?)
         // INSERT INTO CustomerCredentials (customer_id, email, password) 
         // VALUES ([id], 'admin@gamestore.com', 'admin')
 
-        customerList.add(customer);
+        String sqlCustomerQuery = 
+            "INSERT INTO Customers (name, username) VALUES (?, ?)";
+        String sqlCustomerCredentialsQuery =
+            "INSERT INTO CustomerCredentials (customer_id, email, password) " +
+            "VALUES (?, ?, ?)";
+        
+        try
+        {
+            var statement = _dbConnection.prepareStatement(
+                sqlCustomerQuery, 
+                java.sql.Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, customer.name);
+            statement.setString(2, customer.username);
+
+            int rowAffected = statement.executeUpdate();
+            if (rowAffected == 1)
+            {
+                var resultSet = statement.getGeneratedKeys();
+                if (resultSet.next())
+                {
+                    customer.id = resultSet.getInt(1);
+                }
+            }
+
+            statement = _dbConnection.prepareStatement(
+                sqlCustomerCredentialsQuery, 
+                java.sql.Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, customer.id);
+            statement.setString(2, customer.credentials.email);
+            statement.setString(3, customer.credentials.password);
+
+            rowAffected = statement.executeUpdate();
+            if (rowAffected == 1)
+            {
+                var resultSet = statement.getGeneratedKeys();
+                if (resultSet.next())
+                {
+                    customer.credentials.id = resultSet.getInt(1);
+                }
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error: " + ex.getMessage());
+            return false;
+        }
+
         return true;
     }
 
@@ -149,6 +263,24 @@ public class DbContext
         // UPDATE Customers 
         // SET username = 'Elmer Homero', name = 'sysadmin' 
         // WHERE id = 3
+     
+        String sqlQuery = "UPDATE Customers SET username = ?, name = ? " + 
+            "WHERE id = ?";
+
+        try
+        {
+            var statement = _dbConnection.prepareStatement(sqlQuery);
+            statement.setString(1, customer.name);
+            statement.setString(2, customer.username);
+            statement.setInt(3, customer.id);
+
+            statement.executeUpdate();
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error: " + ex.getMessage());
+            return false;
+        }
 
         return true;
     }
